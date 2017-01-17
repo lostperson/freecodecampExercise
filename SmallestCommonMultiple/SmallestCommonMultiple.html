@@ -1,0 +1,87 @@
+<!doctype html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+</head>
+<script>
+function isPrime(n){//判断素数
+  for(var i=2;i<=Math.sqrt(n);i++){
+    if(n%i===0){
+return false;      
+    }
+  }
+  return true;
+}
+
+
+function lowerPrime(n){//返回一个小于n的所有素数的数组
+  var arr=[];
+  for(var i=2;i<=n;i++){
+    if(isPrime(i)){
+      arr.push(i);
+    }
+  }
+  return arr;
+}
+
+function factor(num,arr){//返回因数
+  var dict={};
+  //初始化字典
+  for(var j=0;j<arr.length;j++){
+    dict[arr[j]]=0;
+  }
+  if(num===1){return dict;}
+  while(num>=2){
+    for(var i=0;i<arr.length;i++){
+      if(num%arr[i]===0){
+        dict[arr[i]]+=1;
+        break;
+      }
+    }
+    num=num/arr[i];
+      }
+  return dict;
+}
+
+function multiple(obj){
+    var m=1;
+    for(var prop in obj){
+       m=m*Math.pow(prop,obj[prop].valueOf());
+    }
+    return m;
+}
+
+function dictWash(dict0,dict1){//比较两个字典，其中所有属性取最大值
+    var tdict=dict0;
+    for(var prop in dict0){
+        if(dict0[prop]<=dict1[prop]){
+           tdict[prop] =dict1[prop];}
+        else{
+           tdict[prop] =dict0[prop];}
+    }
+    return tdict;
+}
+function smallestCommons(arr) {
+  var num;
+  var tempArr=arr;
+   
+  //建立中间数字数组
+  tempArr.sort();
+    num=tempArr[1];
+    for(var i=arr[0]+1;i<arr[1];i++){
+      tempArr.push(i);
+    }
+  tempArr.sort();
+  console.log('tempArr:'+tempArr);
+    var primeArr = lowerPrime(num);
+    var dict0 = factor(num,primeArr);
+    for(var j = 0;j<tempArr.length;j++){
+        var tempDict=factor(tempArr[j],primeArr);
+        dict0 = dictWash(dict0,tempDict);
+    }
+
+    num =multiple(dict0)
+    return num;
+}
+console.log(
+smallestCommons([1,13]));
+</script>

@@ -1,12 +1,24 @@
 <script>
-function addMaker(){
-return function(y){
-return x+y;
-};
+function addMaker(x){ 
+    console.log(arguments);
+    if(Number.isInterger(x)){
+	    if(arguments[1]){
+		
+		if(Number.isInteger(arguments[1])&&Number.isInteger(x)){
+		    return x+arguments[1];
+		}
+
+	    }
+	    return function(y){
+		if(Number.isInteger(y)){
+		    return x+y;
+		};
+	    }
+    }
 }
-console.log(addMaker(2,3));
-console.log(addMaker(2)(3));
-console.log(addMaker(2,'3'));
-console.log(addMaker(2)([3])
+console.log('addMaker(2,3)\t',addMaker(2,3));
+console.log('addMaker(2)(3)\t',addMaker(2)(3));
+console.log("addMaker(2,'3')\t",addMaker(2,"3"));
+console.log('addMaker(2)([3])\t',addMaker(2)([3]));
 </script>
 

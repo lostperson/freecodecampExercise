@@ -1,17 +1,80 @@
-<meta>
+<meta charset='utf-8'>
 <script>
-function telephoneCheck(str){
-    console.log(str);
-    var re = /\d+/;
-    var m = re.exec(str);
-    if(m.length>9){
-         return true;
-    }
 
+function telephoneCheck(str) {
+  // Good luck!
+  var re = /\d+/g;
+  var re1 = /\(/g;
+  var re2 = /\)/g;
+  var re3 = /\(\d{3}\)/g;
+  var result,result1,result2,result3;
+  result1=re1.exec(str);
+  result2 = re2.exec(str);
+  result3 = re3.exec(str);
+  console.log(result1);
+   console.log(result2);
+   console.log(result3);
+  
+  var myarray=[];
+while ((result = re.exec(str)) !== null) {
+  myarray.push(result[0]);
 
-    return false;
+  console.log(result);
+}
+ console.log(myarray);
+  var mystr = myarray.join('');
+  console.log(mystr);
+  
+  //'('')'
+  function ifbracket(){
+    if(result1||result2){
     
-};
+      if(result3){
+        console.log(result3+true);
+        
+        return true;
+     
+    }
+    console.log(false);
+    return false;
+  }
+  }
+
+  //num and length
+  
+  if(mystr.length==10){
+  
+    console.log(true);
+    if(result1||result2){
+      if(result3){
+        console.log(result3+true);
+        return true;
+      }
+      console.log(false);
+      return false;
+    }
+    return true;
+  
+  }
+  else if(mystr.length==11&&str[0]==1){
+     if(result1||result2){
+       if(result3){
+         console.log(result3+true);
+         return true;
+       }
+       console.log(false);
+       return false;
+     }
+    console.log(true);
+    return true;
+  }
+  return false;
+}
+
+
+
+telephoneCheck("555-555-5555");
+</script>
 
 
 

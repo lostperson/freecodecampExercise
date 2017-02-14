@@ -1,0 +1,92 @@
+<head>
+<meta charset='utf-8'>
+<script>
+function checkCashRegister(price, cash, cid) {
+    console.log(price,cash,cid);
+    var change=cash-price;
+    var sum = 0;
+    
+    var mValueArr=[0.01,0.05,0.1,0.25,1,5,10,20,100];
+    var maxParValueIndex=0;
+    var changeArr=[];
+    for(var i =0;i<9;i++){
+        if(change<mValueArr[i]){
+        maxParValueIndex =i;
+        break;
+        }
+    }
+    for(var j = 0;j<maxParValueIndex;j++)
+        {
+        sum+=cid[j][1];
+    }
+
+    if(change===sum){
+        return 'Closed';
+    }
+    else if(change>sum){
+        return 'Insufficient Funds';
+    }
+    else{
+        for(var j=maxParValueIndex-1;j>=0;j--){
+            change = Math.round(change*100)/100;
+            console.log(cid[j]);
+            console.log(change);
+            var t = change/mValueArr[j];
+            console.log('t',t);
+            var temp=Math.floor(t);
+            console.log('temp',temp);
+            if(change==0){break;}
+            if(cid[j][1]===0||temp===0){
+                     console.log('no need');
+                }
+            else if(temp*mValueArr[j]<=cid[j][1]){
+                console.log('temp*mValueArr',temp*mValueArr[j]);
+                change-=temp*mValueArr[j];
+                
+                changeArr.push([cid[j][0],temp*mValueArr[j]]);
+                console.log('add',[cid[j][0],temp*mValueArr[j]]);
+
+                
+            }
+            
+            else{
+                change-=cid[j][1];
+                console.log('just use ');
+                changeArr.push(cid[j]);
+              
+            }   
+
+            
+        } 
+    } 
+  // Here is your change, ma'am.
+  return changeArr;
+}
+
+// Example cash-in-drawer array:
+// [["PENNY", 1.01],
+// ["NICKEL", 2.05],
+// ["DIME", 3.10],
+// ["QUARTER", 4.25],
+// ["ONE", 90.00],
+// ["FIVE", 55.00],
+// ["TEN", 20.00],
+// ["TWENTY", 60.00],
+// ["ONE HUNDRED", 100.00]]
+
+console.log(checkCashRegister(19.50, 20.00, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.10], ["QUARTER", 4.25], ["ONE", 90.00], ["FIVE", 55.00], ["TEN", 20.00], ["TWENTY", 60.00], ["ONE HUNDRED", 100.00]]));
+console.log(checkCashRegister(19.50, 20.00, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.10], ["QUARTER", 4.25], ["ONE", 90.00], ["FIVE", 55.00], ["TEN", 20.00], ["TWENTY", 60.00], ["ONE HUNDRED", 100.00]]) ,'应该返回一个数组.');
+console.log(checkCashRegister(19.50, 20.00, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]),' 应该返回一个字符串.');
+console.log(checkCashRegister(19.50, 20.00, [["PENNY", 0.50], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]) ,'应该返回一个字符串.');
+console.log(checkCashRegister(19.50, 20.00, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.10], ["QUARTER", 4.25], ["ONE", 90.00], ["FIVE", 55.00], ["TEN", 20.00], ["TWENTY", 60.00], ["ONE HUNDRED", 100.00]]),' 应该返回 [["QUARTER", 0.50]].');
+console.log(checkCashRegister(3.26, 100.00, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.10], ["QUARTER", 4.25], ["ONE", 90.00], ["FIVE", 55.00], ["TEN", 20.00], ["TWENTY", 60.00], ["ONE HUNDRED", 100.00]]),' 应该返回 [["TWENTY", 60.00], ["TEN", 20.00], ["FIVE", 15], ["ONE", 1], ["QUARTER", 0.50], ["DIME", 0.20], ["PENNY", 0.04]].');
+console.log(checkCashRegister(19.50, 20.00, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]),' 应该返回 "Insufficient Funds".');
+console.log(checkCashRegister(19.50, 20.00, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 1.00], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]) ,'应该返回 "Insufficient Funds".');
+console.log(checkCashRegister(19.50, 20.00, [["PENNY", 0.50], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]])+' 应该返回 "Closed".');
+</script>
+</head>
+<body>
+
+<div id="testCreatePanel"><h4 class="text-center challenge-instructions-title">Exact Change</h4><hr><div class="row"><div class="col-xs-12"><div class="challenge-instructions"><p class="wrappable">设计一个收银程序 <code>checkCashRegister()</code> ，其把购买价格(<code>price</code>)作为第一个参数 , 付款金额 (<code>cash</code>)作为第二个参数, 和收银机中零钱 (<code>cid</code>) 作为第三个参数.</p><p class="wrappable"><code>cid</code> 是一个二维数组，存着当前可用的找零.</p><p class="wrappable">当收银机中的钱不够找零时返回字符串 <code>"Insufficient Funds"</code>. 如果正好则返回字符串 <code>"Closed"</code>.</p><p class="wrappable">否则, 返回应找回的零钱列表,且由大到小存在二维数组中.</p><p class="wrappable">当你遇到困难的时候，记得查看错误提示、阅读文档、搜索、提问。</p></div><div id="MDN-links"><p>这是一些对你有帮助的资源:</p><ul><li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">Global Object</a></li></ul></div><div class="button-spacer"></div></div></div></div>
+</body>
+

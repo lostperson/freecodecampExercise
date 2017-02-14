@@ -1,0 +1,54 @@
+<html><head><script>
+function updateInventory(arr1, arr2) {
+    // All inventory must be accounted for or you're fired!
+  console.log('arr1',arr1);
+  console.log('arr2',arr2);
+  function isInv(a,arr){
+    console.log('a',a);
+    console.log('arr',arr);
+    var isInv = false;
+    var len = arr.length;
+    var index =0;
+    for(var i = 0;i<len;i++){
+      if(arr[i].includes(a)){
+        isInv = true;
+        index = i;
+      }
+    }
+    console.log(isInv,i);
+    return [isInv,i];    
+  }
+    var len = arr2.length;
+    for(var i=0;i<len;i++){
+       isInArr=isInv(arr2[i][1],arr1);
+       if(isInArr[0]===false){
+         arr1.push(arr2[i]);
+       }
+       else{
+         var index = isInArr[1];
+         console.log(arr1[index]);
+         arr1[index]+=arr2[i][0];
+       }
+       
+    }
+    console.log('newarr1',arr1);
+    return arr1;
+}
+
+// Example inventory lists
+var curInv = [
+    [21, "Bowling Ball"],
+    [2, "Dirty Sock"],
+    [1, "Hair Pin"],
+    [5, "Microphone"]
+];
+
+var newInv = [
+    [2, "Hair Pin"],
+    [3, "Half-Eaten Apple"],
+    [67, "Bowling Ball"],
+    [7, "Toothpaste"]
+];
+
+updateInventory(curInv, newInv);
+</script></head><body></body></html>

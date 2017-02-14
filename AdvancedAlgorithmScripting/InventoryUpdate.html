@@ -1,4 +1,6 @@
-<html><head><script>
+<html><head>
+<meta charset='utf-8'>
+<script>
 function updateInventory(arr1, arr2) {
     // All inventory must be accounted for or you're fired!
   console.log('arr1',arr1);
@@ -10,9 +12,11 @@ function updateInventory(arr1, arr2) {
     var len = arr.length;
     var index =0;
     for(var i = 0;i<len;i++){
+      console.log('arr[i]',arr[i]);
       if(arr[i].includes(a)){
         isInv = true;
         index = i;
+        break;
       }
     }
     console.log(isInv,i);
@@ -26,12 +30,14 @@ function updateInventory(arr1, arr2) {
        }
        else{
          var index = isInArr[1];
-         console.log(arr1[index]);
-         arr1[index]+=arr2[i][0];
+         console.log('index',index);
+         arr1[index][0]+=arr2[i][0];
        }
        
     }
-    console.log('newarr1',arr1);
+    console.log('newarr1',arr1.join(''));
+    arr1.sort(function(a,b){
+         return a[1][0]>b[1][0];});
     return arr1;
 }
 
@@ -51,4 +57,9 @@ var newInv = [
 ];
 
 updateInventory(curInv, newInv);
-</script></head><body></body></html>
+</script>
+</head>
+<body>
+<p class="wrappable">依照一个存着新进货物的二维数组，更新存着现有库存(在 <code>arr1</code> 中)的二维数组. 如果货物已存在则更新数量 . 如果没有对应货物则把其加入到数组中，更新最新的数量. 返回当前的库存数组，且按货物名称的字母顺序排列.</p>
+</body>
+</html>
